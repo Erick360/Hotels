@@ -19,7 +19,6 @@ public class CheckIsUserSignedInUseCase extends UseCaseBase<User,Void>{
 
         this.iSignInRepository = iSignInRepository;
         this.schedulerThread = schedulerThread;
-
     }
 
     @Override
