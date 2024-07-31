@@ -17,11 +17,11 @@ public class SignedInObserver extends DisposableObserver<User>{
 
     @Override
     public void onError(Throwable e){
-        iSessionView.hideLOading();
+        iSessionView.hideLoading();
         iSessionView.onSignedOut();
     }
     @Override
-    public void onCOmplete(){
+    public void onComplete(){
         iSessionView.hideLoading();
     }
 }
