@@ -13,7 +13,6 @@ public class LoginPresenter implements IPresenter{
     private Context context;
     private CheckIsUserSignedInUseCase checkIsUserSignedInUseCase;
 
-
     @Inject
     public LoginPresenter(ILoginView iLoginView, CheckIsUserSignedInUseCase checkIsUserSignedInUseCase){
         this.iLoginView = iLoginView;
@@ -29,4 +28,8 @@ public class LoginPresenter implements IPresenter{
         checkIsUserSignedInUseCase.implementUseCase(new SignedInObserver(iLoginView),null);
     }
 
+    @Override
+    public void destroy() {
+
+    }
 }

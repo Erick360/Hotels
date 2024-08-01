@@ -6,6 +6,9 @@ import com.example.hotels.mvp.view.ISessionView;
 import io.reactivex.observers.DisposableObserver;
 
 public class SignedInObserver extends DisposableObserver<User>{
+
+    private ISessionView iSessionView;
+
     public SignedInObserver(ISessionView iSessionView){
         this.iSessionView = iSessionView;
     }
