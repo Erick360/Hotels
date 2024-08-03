@@ -10,6 +10,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class App extends Application implements HasActivityInjector {
 
