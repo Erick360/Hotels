@@ -8,4 +8,6 @@ public interface ISignInRepository {
     Observable<User> isSessionOpen();
     Observable<User> signIn(String provider, String accountIdToken);
 
+
+    Observable<User> signOut();
 }

@@ -9,6 +9,10 @@ public class SignInParameters {
             return sessionProvider;
         }
 
+        public String getAccountIdToken(){
+            return accountIdToken;
+        }
+
         private Parameters(String sessionProvider, String accountIdToken){
             this.sessionProvider = sessionProvider;
             this.accountIdToken = accountIdToken;

@@ -1,7 +1,7 @@
 package com.example.hotels.mvp.view;
 
 public interface IDataView {
-    void ShowLoading();
+    void showLoading();
     void hideLoading();
-    void showMessages(String message);
+    void showMessage(String message);
 }

@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'com.example.domain'
-    compileSdk 34
+    compileSdk 26
 
     defaultConfig {
         applicationId "com.example.domain"
@@ -36,5 +36,5 @@ dependencies {
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
     implementation('io.reactivex.rxjava2:rxjava:2.0.2')
-    implementation('com.google.dagger:dagger:2.13')
+    implementation('com.google.dagger:dagger:2.27')
 }

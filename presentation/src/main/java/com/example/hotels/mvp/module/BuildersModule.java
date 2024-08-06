@@ -1,5 +1,8 @@
 package com.example.hotels.mvp.module;
 
+import com.example.hotels.di.scope.PerActivity;
+import com.example.hotels.ui.LoginActivity;
+
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 

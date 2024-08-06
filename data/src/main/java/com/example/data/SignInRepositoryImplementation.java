@@ -1,24 +1,21 @@
 package com.example.data;
 
+import static com.facebook.AccessTokenManager.TAG;
+
 import android.content.Context;
+import android.util.Log;
 
-import androidx.databinding.Observable;
-
+import io.reactivex.Observable;
+import io.reactivex.observers.DisposableObserver;
 import com.example.data.mapper.FirebaseUserToUser;
+import com.example.domain.model.SessionProvider;
 import com.example.domain.model.User;
 import com.example.domain.repositories.ISignInRepository;
 
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.Auth;
-
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 
 import javax.inject.Inject;
 
@@ -66,7 +63,7 @@ public class SignInRepositoryImplementation implements ISignInRepository{
                                 .addOnCompleteListener(
                                         task -> {
                                             if (task.isSuccessful())
-                                                getTokenOnSuccessFulSignIn(emitter);
+                                                getTokenOnSuccessFullSignIn(emitter);
                                             else {
                                                 // If sign in fails, display a message to the user.
                                                 Log.w(TAG, "signInWithCredential:failure", task.getException());

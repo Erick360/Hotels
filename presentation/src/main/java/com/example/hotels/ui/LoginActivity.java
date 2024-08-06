@@ -15,20 +15,28 @@ import com.facebook.login.LoginResult;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.view.View;
+import android.content.Intent;
 
+
+import java.util.Arrays;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import dagger.Provides;
 import dagger.android.AndroidInjection;
 
 public class LoginActivity extends AppCompatActivity implements ILoginView {
 
+    private static final String TAG = "LOGIN";
     @BindView(R.id.login_progress)
     ProgressBar login_progress;
     @BindView(R.id.login_signInFacebook_btn)
@@ -42,9 +50,32 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     @BindView(R.id.login_signOut_btn)
     Button login_signOut_btn;
 
+    @OnClick(R.id.login_signInFacebook_btn)
+    protected void doFacebookSignIn() {
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        loginPresenter.handleFacebookResult(loginResult);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.d(TAG, error.toString());
+                    }
+                });
+    }
 
     @Inject
     LoginPresenter loginPresenter;
+
+    @Inject
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +109,36 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     }
 
     @Override
+    public void showLoading() {
+
+    }
+
+    @Override
     public void hideLoading() {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
 
     }
 
     @Override
     public void showMessages(String message) {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode()){
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Provides
+    @Singleton
+    static CallbackManager provideCallbackManager(){
+        return CallbackManager.Factory.create();
     }
 }
