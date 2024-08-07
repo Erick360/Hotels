@@ -5,6 +5,7 @@ import static com.facebook.AccessTokenManager.TAG;
 import android.content.Context;
 import android.util.Log;
 
+
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 import com.example.data.mapper.FirebaseUserToUser;
@@ -37,7 +38,7 @@ public class SignInRepositoryImplementation implements ISignInRepository{
                 if(firebaseAuth.getCurrentUser()==null){
                     emitter.onError(new Exception(context.getString(R.string.there_is_not_active_user)));
                 }else{
-                    getTokenOnSuccessFUllSignIn(emitter);
+                    getTokenOnSuccessFUlSignIn(emitter);
                 }
             }catch (Exception e){
                 emitter.onError(e);
@@ -63,7 +64,7 @@ public class SignInRepositoryImplementation implements ISignInRepository{
                                 .addOnCompleteListener(
                                         task -> {
                                             if (task.isSuccessful())
-                                                getTokenOnSuccessFullSignIn(emitter);
+                                                getTokenOnSuccessFUlSignIn(emitter);
                                             else {
                                                 // If sign in fails, display a message to the user.
                                                 Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -80,7 +81,7 @@ public class SignInRepositoryImplementation implements ISignInRepository{
 
     }
 
-    private void getTokenOnSuccessFUllSignIn(Object emitter){
+    private void getTokenOnSuccessFUlSignIn(Object emitter){
         User user = FirebaseUserToUser.Create(firebaseAuth.getCurrentUser());
         firebaseAuth.getCurrentUser().getIdToken(false).
                 addOnCompleteListener(result -> {
@@ -88,7 +89,6 @@ public class SignInRepositoryImplementation implements ISignInRepository{
                    emitter.onNext(user);
                    emitter.onComplete();
                 });
-
     }
 
 }

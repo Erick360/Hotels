@@ -1,6 +1,7 @@
-package com.example.hotels.mvp.module;
+package com.example.hotels.di.builder;
 
 import com.example.hotels.di.scope.PerActivity;
+import com.example.hotels.mvp.module.LoginModule;
 import com.example.hotels.ui.LoginActivity;
 
 import dagger.Module;

@@ -2,6 +2,11 @@ package com.example.hotels.mvp.presenter;
 
 import android.content.Context;
 
+import com.example.domain.model.SessionProvider;
+import com.example.hotels.observer.SignInObserver;
+import com.example.hotels.observer.SignedInObserver;
+import com.example.domain.interactor.parameters.SignInParameters;
+import com.example.hotels.observer.SignedInObserver;
 import com.example.domain.interactor.CheckIsUserSignedInUseCase;
 import com.example.domain.interactor.SignInUseCase;
 import com.example.hotels.mvp.view.ILoginView;
@@ -16,7 +21,6 @@ public class LoginPresenter implements IPresenter{
     private CheckIsUserSignedInUseCase checkIsUserSignedInUseCase;
     private SignInUseCase signInUseCase;
     private SignOutUseCase signOutUseCase;
-    private CheckIsUserSignedInUseCase checkIsUserSignedInUseCase;
 
     @Inject
     public LoginPresenter(ILoginView iLoginView, CheckIsUserSignedInUseCase checkIsUserSignedInUseCase

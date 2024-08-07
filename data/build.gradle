@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'com.example.data'
-    compileSdk 26
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.data"
@@ -36,6 +36,7 @@ dependencies {
     implementation project(':domain')
     implementation libs.play.services.auth
     implementation libs.androidx.baselibrary
+    implementation libs.androidx.media3.common
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
