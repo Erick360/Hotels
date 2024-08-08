@@ -1,7 +1,7 @@
 package com.example.hotels.di.component;
 
 import com.example.hotels.App;
-import com.example.hotels.mvp.module.AppModule;
+import com.example.hotels.di.module.AppModule;
 import com.example.hotels.di.builder.BuildersModule;
 
 import javax.inject.Singleton;

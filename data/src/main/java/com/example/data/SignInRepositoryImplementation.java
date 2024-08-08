@@ -13,6 +13,7 @@ import com.example.domain.model.SessionProvider;
 import com.example.domain.model.User;
 import com.example.domain.repositories.ISignInRepository;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -21,6 +22,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import javax.inject.Inject;
 
 public class SignInRepositoryImplementation implements ISignInRepository{
+    //private SessionDataStoreFactory sessionDataStoreFactory;
+
+    private GoogleApiClient googleApiClient;
     private FirebaseAuth  firebaseAuth;
     private Context context;
 

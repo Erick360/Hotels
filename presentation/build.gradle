@@ -82,5 +82,7 @@ dependencies {
     /* Picasso */
     implementation('com.squareup.picasso:picasso:2.5.2')
 
+    /* Auth Google*/
+    annotationProcessor('com.google.android.gms:play-services-auth:21.2.0')
 }
-
+apply plugin: 'com.google.gms.google-services'

@@ -71,6 +71,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                 });
     }
 
+    //Capturamos el click del boton de Login con Google, para hacer login a través de Google.
+    @OnClick(R.id.login_signInGoogle_btn)
+    protected void doGoogleSignIn() {
+        Intent intentGoogle = loginPresenter.googleSignIn();
+        startActivityForResult(intentGoogle, Flags.GOOGLE_SIGN_IN);
+    }
+
     @Inject
     LoginPresenter loginPresenter;
 
@@ -131,9 +138,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode()){
+        //Capturamos el Intent
+        if (requestCode == Flags.GOOGLE_SIGN_IN)//Si recibimos el intent de Google, manejaremos la respuesta a través de Google
+            loginPresenter.handleGoogleResult(data);
+        else if (requestCode == CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode())//Si recibimos el intent de Facebook, manejaremos la respuesta a través de Facebook
             callbackManager.onActivityResult(requestCode, resultCode, data);
-        }
+        else if (requestCode == Flags.EMAIL_LOGIN || requestCode == Flags.EMAIL_SIGN_IN)//Si recibimos el intent de login con email, miramos si tenemos sesión iniciada.
+            loginPresenter.isSignedIn();
     }
 
     @Provides
