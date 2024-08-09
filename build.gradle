@@ -5,11 +5,15 @@ buildscript {
     }
     dependencies {
         classpath libs.realm.gradle.plugin
+        //noinspection GradlePluginVersion
+        classpath libs.gradle
+        classpath libs.realm.gradle.plugin.v420
     }
 }
 
 plugins {
-alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.application) apply false
     alias(libs.plugins.jetbrains.kotlin.android) apply false
-    id 'com.google.gms.google-services' version '4.4.2' apply false
+    id 'com.google.gms.google-services' version '4.2.0' apply false
 }
+

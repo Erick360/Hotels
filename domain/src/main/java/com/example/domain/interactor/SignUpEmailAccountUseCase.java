@@ -1,7 +1,6 @@
 package com.example.domain.interactor;
 
 import com.example.domain.interactor.parameters.EmailParameters;
-import com.example.domain.model.SessionProvider;
 import com.example.domain.model.User;
 import com.example.domain.repositories.ISignInRepository;
 

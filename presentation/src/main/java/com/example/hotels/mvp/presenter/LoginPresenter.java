@@ -16,6 +16,7 @@ import com.example.hotels.mvp.view.ILoginView;
 import com.example.domain.interactor.SignOutUseCase;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import javax.inject.Inject;
 
@@ -34,6 +35,9 @@ public class LoginPresenter implements IPresenter{
         this.checkIsUserSignedInUseCase = checkIsUserSignedInUseCase;
         this.signInUseCase = signInUseCase;
         this.signOutUseCase = signOutUseCase;
+    }
+
+    public LoginPresenter(ILoginView iLoginView, SignInUseCase signInUseCase, SignOutUseCase signOutUseCase, CheckIsUserSignedInUseCase checkIsUserSignedInUseCase, GoogleApiClient googleApiClient) {
     }
 
     public void initialize(Context context){

@@ -1,5 +1,8 @@
 package com.example.domain.interactor;
 
+import com.example.domain.interactor.parameters.EmailParameters;
+import com.example.domain.model.User;
+
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
@@ -17,6 +20,8 @@ public abstract class UseCaseBase<Type, Object> implements IObservableUseCase{
                 .subscribeWith(observer);
         subscribe(observer);
     }
+
+    public abstract Observable<User> implementUseCase(DisposableObserver observer, EmailParameters.Parameters parameters);
 
     public abstract Observable<Type> implementUseCase(DisposableObserver observer, Object object);
 

@@ -1,13 +1,9 @@
 package com.example.data;
 
-import static com.facebook.AccessTokenManager.TAG;
-
 import android.content.Context;
+
 import android.util.Log;
 
-
-import io.reactivex.Observable;
-import io.reactivex.observers.DisposableObserver;
 import com.example.data.mapper.FirebaseUserToUser;
 import com.example.domain.model.SessionProvider;
 import com.example.domain.model.User;
@@ -18,11 +14,18 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.GoogleAuthProvider;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 
 import javax.inject.Inject;
 
+
 public class SignInRepositoryImplementation implements ISignInRepository{
-    //private SessionDataStoreFactory sessionDataStoreFactory;
+
+    private static final String TAG = "SIGNIN";
+
+    //Factoría del almacén de datos para seleccionar entre Local o Remoto.
+    private SessionDataStoreFactory sessionDataStoreFactory;
 
     private GoogleApiClient googleApiClient;
     private FirebaseAuth  firebaseAuth;
@@ -42,7 +45,7 @@ public class SignInRepositoryImplementation implements ISignInRepository{
                 if(firebaseAuth.getCurrentUser()==null){
                     emitter.onError(new Exception(context.getString(R.string.there_is_not_active_user)));
                 }else{
-                    getTokenOnSuccessFUlSignIn(emitter);
+                    getTokenOnSuccessFulSignIn(emitter);
                 }
             }catch (Exception e){
                 emitter.onError(e);
@@ -68,7 +71,7 @@ public class SignInRepositoryImplementation implements ISignInRepository{
                                 .addOnCompleteListener(
                                         task -> {
                                             if (task.isSuccessful())
-                                                getTokenOnSuccessFUlSignIn(emitter);
+                                                getTokenOnSuccessFulSignIn(emitter);
                                             else {
                                                 // If sign in fails, display a message to the user.
                                                 Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -85,14 +88,49 @@ public class SignInRepositoryImplementation implements ISignInRepository{
 
     }
 
-    private void getTokenOnSuccessFUlSignIn(Object emitter){
-        User user = FirebaseUserToUser.Create(firebaseAuth.getCurrentUser());
-        firebaseAuth.getCurrentUser().getIdToken(false).
-                addOnCompleteListener(result -> {
-                   user.setAuthToken(result.getResult().getToken());
-                   emitter.onNext(user);
-                   emitter.onComplete();
+    //Registro de usuario mediante email y contraseña
+    @Override
+    public Observable<User> signUpAccountWithEmail(String email, String password) {
+        return Observable
+                .create(emitter -> {
+                    try {
+                        //Creamos usuario nuevo mediante email y contraseña
+                        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(
+                                        task -> {
+                                            if (task.isSuccessful())
+                                                getTokenOnSuccessFulSignIn(emitter);
+                                            else emitter.onError(task.getException());
+                                        });
+                    } catch (Exception e) {
+                        //Indicamos que se ha producido un error.
+                        emitter.onError(e);
+                    }
                 });
     }
 
+        //Retornar el usuario con el token de autenticación
+        private void getTokenOnSuccessFulSignIn(ObservableEmitter<User> emitter) {
+            // Sign in success, Actualizar interfaz con información del usuario logueado.
+            User user = FirebaseUserToUser.Create(firebaseAuth.getCurrentUser());
+
+            //FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            //Obtenemos el usuario de la sesión de firebase y obtenemos su token, sin la necesidad de forzar el refresco de token.
+            firebaseAuth.getCurrentUser().getIdToken(false)
+                    .addOnCompleteListener(result -> {
+                        //Una vez obtenido el token de usuario, lo asignamos a la instancia usuario.
+                        user.setAuthToken(result.getResult().getToken());
+
+                        //Si se ha guardado correctamente localmente el usuario, lo retornamos.
+                        if (sessionDataStoreFactory.Local().saveSession(user)) {
+                            emitter.onNext(user);
+                            emitter.onComplete();
+                        } else {
+                            emitter.onError(new Exception(context.getString(R.string.error_save_user_local)));
+                        }
+
+                        Log.d(TAG, "Token Firebase User:" + result.getResult().getToken());
+                    });
+        }
 }
+
